@@ -1,13 +1,30 @@
-import { useState } from "react";
+import createApi from "./api";
+import jobs from "./api/jobs";
+import { App } from "./components/App";
+import storeContext from "./contexts/store";
+import createHttpPlugins from "./plugins/http";
 
-export const App = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <div>
-      Hello World! {count}
-      <button type="button" onClick={() => setCount(count + 999)}>
-        +999
-      </button>
-    </div>
+import createRootStore from "./store";
+
+function CreateApp() {
+  const http = createHttpPlugins("https://api-table-for-the-driver.vercel.app");
+  const api = createApi(http);
+  const rootStore: any = createRootStore();
+
+  http.interceptors.request.use((config) => {
+    console.log("1:", config);
+    return config;
+  });
+
+  api.jobs.all();
+
+  const app = (
+    <storeContext.Provider value={rootStore}>
+      <App />
+    </storeContext.Provider>
   );
-};
+
+  return app;
+}
+
+export default CreateApp;
