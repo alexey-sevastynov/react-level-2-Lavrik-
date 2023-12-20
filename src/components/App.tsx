@@ -5,6 +5,7 @@ import storeContext from "../contexts/store";
 import { Link, useRoutes } from "react-router-dom";
 
 import routes from "../routes";
+import { Counter } from "./Counter";
 
 export const App = observer(() => {
   const pages = useRoutes(routes);
@@ -13,10 +14,8 @@ export const App = observer(() => {
 
   return (
     <div>
-      Hello World! {count}
-      <button type="button" onClick={() => setCount(count + 999)}>
-        +999
-      </button>
+      Hello World!
+      <Counter />
       <Link to={"/"}>Page A</Link>
       <Link to={"/b"}>Page B</Link>
       <hr />
